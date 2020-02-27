@@ -4,15 +4,16 @@ var Schema = mongoose.Schema;
 
 // create a schema
 var formSchema = new Schema({
-    name: String
+    name: String,
+    inputs: Object
 });
 
-formSchema.methods.getFormName = function () {
-    // add some stuff to the form name
-    this.name = this.name;
+// formSchema.methods.getFormName = function () {
+//     // add some stuff to the form name
+//     this.name = this.name;
 
-    return this.name;
-};
+//     return this.name;
+// };
 
 // the schema is useless so far
 // we need to create a model using it

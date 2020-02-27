@@ -97,8 +97,10 @@ class FormBuilder extends React.Component {
     if (form.checkValidity() === true) {
 
       var formObj = {
-        formName: this.state.formName,
-        inputs: this.state.inputs
+        "form": {
+          "name": this.state.formName,
+          "inputs": this.state.inputs
+        }
       }
 
       console.log(this.state.formName)
@@ -107,9 +109,29 @@ class FormBuilder extends React.Component {
         validatedGeneratedForm: false,
         setValidatedGeneratedForm: false
       })
+      this.saveFormToDb(formObj)
     }
     event.stopPropagation();
     event.preventDefault();
+  }
+
+
+  saveFormToDb(payload){
+
+    const axios = require('axios')
+
+    axios.post('/form', {
+      payload: payload
+    })
+
+    // fetch('/form', {
+    //   method: 'post',
+    //   body: JSON.stringify({payload})
+    // }).then(function (response) {
+    //   console.log(response) 
+    // }).then(function (data) {
+    //   // ChromeSamples.log('Created Gist:', data.html_url);
+    // });
   }
 
   renderFormAction() {
