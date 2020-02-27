@@ -31,7 +31,7 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
+      {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         { process.env.NODE_ENV === 'production' ?
             <p>
@@ -40,13 +40,13 @@ function App() {
           : <p>
               Edit <code>src/App.js</code> and save to reload.
             </p>
-        }
+        } */}
         <p>{'« '}<strong>
           {isFetching
             ? 'Fetching message from API'
             : message}
         </strong>{' »'}</p>
-        <p><a
+        {/* <p><a
           className="App-link"
           href="https://github.com/mars/heroku-cra-node"
         >
@@ -60,7 +60,7 @@ function App() {
         >
           Learn React
         </a></p>
-      </header>
+      </header> */}
     </div>
   );
 
