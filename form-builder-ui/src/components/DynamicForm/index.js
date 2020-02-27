@@ -35,10 +35,10 @@ class DynamicForm extends React.Component {
 
   };
   renderForm = () => {
-    let model = this.props.model;
+    let inputs = this.props.inputs;
     // let defaultValues = this.props.defaultValues;
 
-    let formUI = model.map(m => {
+    let formUI = inputs.map(m => {
       let key = m.key;
       let type = m.type || "text";
       //   let props = m.props || {};
@@ -65,10 +65,10 @@ class DynamicForm extends React.Component {
 
       return (
         <Form.Group key={"g" + key} as={Row} controlId="">
-          <Form.Label key={"l" + key} column md="2">
+          <Form.Label className="form-label" key={"l" + key} column md="3">
             {label}
           </Form.Label>
-          <Col md="8">
+          <Col md="7">
             {input}
           </Col>
           <Col md="1">
@@ -80,16 +80,28 @@ class DynamicForm extends React.Component {
     return formUI;
   };
 
+  renderSubmitButton = () => {
+
+    if (this.props.submitBtnClick != null) {
+      return (
+        <Row className="centerContent">
+          <button className="btn btn-primary" onClick={this.props.submitBtnClick} type="button">{this.props.submitBtnText}</button>
+        </Row>
+      )
+    }
+  }
+
   render() {
     let title = this.props.title || "Dynamic Form";
 
     return (
       <div>
-     
-          <Form  md="12">
-            {this.renderForm()}
-          </Form>
-        
+
+        <Form md="12">
+          {this.renderForm()}
+          {this.renderSubmitButton()}
+        </Form>
+
       </div>
     );
   }

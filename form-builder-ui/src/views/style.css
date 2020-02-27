@@ -20,3 +20,12 @@
     justify-content: center;
     margin-top: 2%;
 }
+
+.generatedForm h2{
+    margin: 5%;
+}
+.centerContent{
+    margin: auto;
+    align-content: center;
+    justify-content: center;
+}

@@ -14,7 +14,7 @@
     justify-content: space-between;
 }
 
-.dynamic-form .form-label {
+.dynamic-form {
     text-align: left;
     color: #2E86C1;
 }
@@ -76,3 +76,13 @@
     margin-bottom:5px;
 }
 
+
+.form-label{
+    overflow-wrap: break-word;
+}
+
+.centerContent{
+    margin: auto;
+    align-content: center;
+    justify-content: center;
+}
