@@ -1,0 +1,22 @@
+.header{
+    margin: 2%;
+    text-align: center;
+}
+.generationForm{
+    margin: auto;
+    padding: 10px;
+    border-width: 2px;
+    border: solid;
+    align-content: center;
+    justify-content: center;
+}
+
+.generatedForm{
+    margin: auto;
+    padding: 10px;
+    border-width: 2px;
+    border: solid;
+    align-content: center;
+    justify-content: center;
+    margin-top: 2%;
+}
