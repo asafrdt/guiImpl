@@ -1,0 +1,21 @@
+{
+  "name": "react-form-builder",
+  "description": "form builder web app using Node.js + React.js + Mongoose",
+  "scripts": {
+  },
+  "env": {
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
