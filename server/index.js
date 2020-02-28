@@ -6,10 +6,7 @@ const mongoose = require('mongoose');
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 5000;
 
-
 var connection = mongoose.createConnection("mongodb://localhost/formbuilder");
-
-
 
 // Multi-process to utilize all CPU cores.
 if (!isDev && cluster.isMaster) {
@@ -120,6 +117,27 @@ if (!isDev && cluster.isMaster) {
     // // res.set('Content-Type', 'application/json');
     // // res.send('{"message":"success"}');
     res.sendStatus(200);
+  });
+
+  app.get('/submissions/:formId', (req, res) => {
+    var formId = req.params.formId;
+    FormSubmission.find({ formId: formId }, function (err, submissions) {
+      var userMap = {};
+      submissions.forEach(function (submission) {
+
+        var formSubmissionObj = {
+          "formId": submission.formId,
+          "name": submission.name,
+          "response": submission.response
+
+        }
+        userMap[submission._id] = formSubmissionObj;
+      });
+
+      res.set('Content-Type', 'application/json');
+      res.send(userMap);
+
+    });
   });
 
   // Answer API requests.

@@ -91,6 +91,7 @@ class FormList extends React.Component {
 render() {
   return (
     <Container>
+      <h1 className="header">Form List</h1>
       <Table striped bordered hover>
         <thead>
           <tr>
