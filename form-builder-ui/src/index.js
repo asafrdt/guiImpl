@@ -19,8 +19,8 @@ const routing = (
                     <Nav.Link href="/">Home</Nav.Link>
                     <Nav.Link href="/formBuilder">Form-Builder</Nav.Link>
                     <Nav.Link href="/formList">Form-List</Nav.Link>
-                    <Nav.Link href="/formSubmissions">Form-Submissions</Nav.Link>
-                    <Nav.Link href="/formSubmit">Submit-Form</Nav.Link>
+                    <Nav.Link href="/submissions">Form-Submissions</Nav.Link>
+                    <Nav.Link href="/submit">Submit-Form</Nav.Link>
                 </Nav>
             </Navbar.Collapse>
         </Navbar>
@@ -28,8 +28,8 @@ const routing = (
         <Route exact path="/" component={App} />
         <Route path="/formBuilder" component={FormBuilder} />
         <Route path="/formList" component={FormList} />
-        <Route path="/formSubmissions" component={FormSubmissions} />
-        <Route path="/formSubmit" component={FormSubmit} />
+        <Route path="/submissions/:formId" component={FormSubmissions} />
+        <Route path="/submit/:formId" component={FormSubmit} />
 
     </Router>
 )

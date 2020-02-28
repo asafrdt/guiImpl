@@ -1,5 +1,6 @@
 import React from 'react';
 import DynamicForm from "../components/DynamicForm";
+import axios from 'axios';
 import { Button, Container, Row, Col, Form, InputGroup, FormControl, DropdownButton, Dropdown } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./style.css";
@@ -63,7 +64,7 @@ class FormBuilder extends React.Component {
       })
 
       console.log('label- ' + this.state.labelName + ' input -' + this.state.inputName + ' select- ' + this.state.inputType)
-
+      console.log(this.state.inputs)
       document.getElementById("generation-form").reset();
       this.setState({
         validated: false,
@@ -117,8 +118,6 @@ class FormBuilder extends React.Component {
 
 
   saveFormToDb(payload){
-
-    const axios = require('axios')
 
     axios.post('/form', {
       payload: payload
@@ -260,12 +259,12 @@ class FormBuilder extends React.Component {
             key={this.state.current.id}
             className="form"
             title="Registration"
-
+            deleteButtons="true"
             // defaultValues={this.state.current}
             inputs={this.state.inputs}
-            onSubmit={inputs => {
-              this.onSubmit(inputs);
-            }}
+            // onSubmit={inputs => {
+            //   this.onSubmit(inputs);
+            // }}
           ></DynamicForm>
 
           {this.renderFormAction()}

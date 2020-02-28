@@ -55,7 +55,27 @@ if (!isDev && cluster.isMaster) {
     form.save(function (err) {
 
     });
+    // res.set('Content-Type', 'application/json');
+    // res.send('{"message":"success"}');
+    res.sendStatus(200);
+  });
 
+  app.get('/form/:formId', (req, res) => {
+
+    var formId = req.params.formId;
+    console.log(formId)
+    Form.find({ formId: formId }, function (err, doc) {
+      console.log(doc);
+
+      var formObj = {
+        "formId": doc[0].formId,
+        "name": doc[0].name,
+        "inputs": doc[0].inputs
+      }
+
+      res.set('Content-Type', 'application/json');
+      res.send(formObj);
+    });
   });
 
   app.get('/forms', (req, res) => {
@@ -72,6 +92,7 @@ if (!isDev && cluster.isMaster) {
         userMap[form._id] = formObj;
       });
 
+      // res.sendStatus(200);
       res.set('Content-Type', 'application/json');
       res.send(userMap);
 
