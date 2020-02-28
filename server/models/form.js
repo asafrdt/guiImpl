@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 
 // create a schema
 var formSchema = new Schema({
+    id: String,
     name: String,
     inputs: Object
 });
@@ -20,4 +21,6 @@ var formSchema = new Schema({
 var Form = mongoose.model('Form', formSchema);
 
 // make this available to our forms in our Node applications
-module.exports = Form;
+
+module.exports = formSchema;
+

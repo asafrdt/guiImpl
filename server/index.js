@@ -6,9 +6,16 @@ const mongoose = require('mongoose');
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 5000;
 
-var Form = require('./models/form');
+var autoIncrement = require('mongoose-auto-increment');
 
-mongoose.connect('mongodb://localhost/formbuilder');
+var connection = mongoose.createConnection("mongodb://localhost/formbuilder");
+autoIncrement.initialize(connection);
+
+var formSchema = require('./models/form');
+formSchema.plugin(autoIncrement.plugin, { model: 'Form', field: 'formId' });
+
+var Form = connection.model('Form', formSchema);
+
 
 // Multi-process to utilize all CPU cores.
 if (!isDev && cluster.isMaster) {
@@ -28,6 +35,8 @@ if (!isDev && cluster.isMaster) {
 
   const bodyParser = require('body-parser')
 
+  // Priority serve any static files.
+  app.use(express.static(path.resolve(__dirname, '../form-builder-ui/build')));
   app.use(
     bodyParser.urlencoded({
       extended: true
@@ -37,68 +46,44 @@ if (!isDev && cluster.isMaster) {
   app.use(bodyParser.json())
 
   app.post('/form', (req, res) => {
-    console.log(req.body.payload)
 
-    var formName = "";
-    // create a new Form called Form1
     var form = new Form({
       name: req.body.payload.form.name,
       inputs: req.body.payload.form.inputs
     });
 
-    // call the custom method.
-    // forms will now be Form1
-    // form.getFormName(function (err, name) {
-    //   if (err) throw err;
-    //   console.log('Form name is ' + name);
-    //   formName = name;
-    // });
-
-    // call the built-in save method to save to the database
     form.save(function (err) {
-      if (err) throw err
-      console.log('Form saved successfully!');
+
     });
 
-    res.set('Content-Type', 'application/json');
-    res.send('{"message":"' + formName + '"}');
-  })
+  });
 
-  // Priority serve any static files.
-  app.use(express.static(path.resolve(__dirname, '../form-builder-ui/build')));
+  app.get('/forms', (req, res) => {
+    Form.find({}, function (err, forms) {
+      var userMap = {};
+      forms.forEach(function (form) {
+
+        var formObj = {
+          "formId": form.formId,
+          "name": form.name,
+          "inputs": form.inputs
+
+        }
+        userMap[form._id] = formObj;
+      });
+
+      res.set('Content-Type', 'application/json');
+      res.send(userMap);
+
+    });
+  });
 
   // Answer API requests.
   app.get('/api', function (req, res) {
 
-    var formName = "";
-    // create a new Form called Form1
-    var form = new Form({
-      name: 'Form1'
-    });
-
-    // call the custom method.
-    // forms will now be Form1
-    form.getFormName(function (err, name) {
-      if (err) throw err;
-      console.log('Form name is ' + name);
-      formName = name;
-    });
-
-    // call the built-in save method to save to the database
-    form.save(function (err) {
-      if (err) throw err
-      console.log('Form saved successfully!');
-    });
-
     res.set('Content-Type', 'application/json');
-    res.send('{"message":"' + formName + '"}');
+    res.send('{"message":"success"}');
   });
-
-  // app.post('/form', function (req, res) {
-  //   console.log(req.body)
-  //   res.set('Content-Type', 'application/json');
-  //   res.send('{"message":"' + req + '"}');
-  // });
 
   // All remaining requests return the React app, so it can handle routing.
   app.get('*', function (request, response) {

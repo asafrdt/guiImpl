@@ -1,6 +1,6 @@
 import React, { useState, ControlLabel } from 'react'
 // import Form1 from './form';
-import { Button, Container, Row, Col, InputGroup, Form, FormControl, DropdownButton, Dropdown } from 'react-bootstrap';
+import { Button, Container, Row, Col, Table, InputGroup, Form, FormControl, DropdownButton, Dropdown } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 class FormList extends React.Component {
@@ -31,66 +31,26 @@ class FormList extends React.Component {
   render() {
     return (
       <Container>
-        <Form noValidate validated={this.state.validated} onSubmit={this.handleSubmit}>
-          <Form.Row>
-            <Form.Group as={Col} md="4" controlId="validationCustomUsername">
-              <InputGroup>
-                <InputGroup.Prepend>
-                  <InputGroup.Text>Label</InputGroup.Text>
-                </InputGroup.Prepend>
-                <Form.Control
-                  type="text"
-                  required
-                  name="labelName"
-                  placeholder="label name"
-                  aria-label="Labelname"
-                  aria-describedby="basic-addon1"
-                // onChange={this.handleChange}
-                />
-                <Form.Control.Feedback type="invalid">
-                  Please choose a username.
-                </Form.Control.Feedback>
-              </InputGroup>
-            </Form.Group>
-
-            <Form.Group as={Col} md="4" controlId="validationCustomUsername">
-              <InputGroup>
-                <InputGroup.Prepend>
-                  <InputGroup.Text>Input</InputGroup.Text>
-                </InputGroup.Prepend>
-                <Form.Control
-                  type="text"
-                  required
-                  name="inputName"
-                  placeholder="input name"
-                  aria-label="Inputname"
-                  aria-describedby="basic-addon1"
-                // onChange={this.handleChange}
-                />
-                <Form.Control.Feedback type="invalid">
-                  Please choose a username.
-                </Form.Control.Feedback>
-              </InputGroup>
-            </Form.Group>
-
-            <Form.Group as={Col} md="4" controlId="validationCustomUsername">
-              <InputGroup>
-                <InputGroup.Prepend>
-                  <InputGroup.Text>Input</InputGroup.Text>
-                </InputGroup.Prepend>
-
-                <select required className="form-control" name="inputType" onChange={this.handleChange}>
-                  <option defaultValue value="grapefruit">Grapefruit</option>
-                  <option value="lime">Lime</option>
-                  <option value="coconut">Coconut</option>
-                  <option value="mango">Mango</option>
-                </select>
-
-              </InputGroup>
-            </Form.Group>
-          </Form.Row>
-          <Button type="submit">Submit form</Button>
-        </Form>
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Form Id</th>
+              <th>Form Name</th>
+              <th># Submissions</th>
+              <th>Submit Page</th>
+              <th>Submissions Page</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+              <td>@mdo</td>
+            </tr>
+          </tbody>
+        </Table>
       </Container>
     )
   }
