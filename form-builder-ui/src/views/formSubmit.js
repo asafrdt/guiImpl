@@ -74,6 +74,7 @@ class FormSubmit extends React.Component {
     axios.post('/submit', {
       payload: payload
     })
+    document.getElementById("generated-form").reset()
   }
 
   render() {
@@ -98,11 +99,10 @@ class FormSubmit extends React.Component {
           this.submitForm(inputs);
         }}
       ></DynamicForm> */}
-<DynamicForm
+        <DynamicForm
             delete={this.delete}
             key={this.state.current.id}
             className="form"
-            title="Registration"
             // defaultValues={this.state.current}
             inputs={this.state.inputs}
             submitBtn= "true"

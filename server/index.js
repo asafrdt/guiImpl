@@ -6,7 +6,9 @@ const mongoose = require('mongoose');
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 5000;
 
-var connection = mongoose.createConnection("mongodb://localhost/formbuilder");
+var connection = mongoose.createConnection("mongodb+srv://sangeeth:sangeeth2020@cluster0-55xpb.mongodb.net/formbuilder");
+// var connection = mongoose.createConnection("mongodb://localhost/formbuilder");
+
 
 // Multi-process to utilize all CPU cores.
 if (!isDev && cluster.isMaster) {
@@ -77,18 +79,47 @@ if (!isDev && cluster.isMaster) {
     });
   });
 
-  app.get('/forms', (req, res) => {
+  var formSubmissionSchema = require('./models/formSubmission');
+  var FormSubmission = connection.model('FormSubmission', formSubmissionSchema);
+
+  app.get('/forms', function (req, res) {
     Form.find({}, function (err, forms) {
       var userMap = {};
       forms.forEach(function (form) {
+        var formObj = {}
 
-        var formObj = {
-          "formId": form.formId,
-          "name": form.name,
-          "inputs": form.inputs
+        var c = 0;
 
-        }
-        userMap[form._id] = formObj;
+        // FormSubmission.countDocuments({ formId: form.formId }, function (err, count) {
+        //   console.log('there are %d jungle adventures', count);
+        //   c =  count;
+        // });
+        // let smaquery = {formId: form.formId}
+        // let getProductCount = async function (smaquery) {
+        //   let count = await FormSubmission.countDocuments(smaquery);
+
+
+          var formObj = {
+            "formId": form.formId,
+            "name": form.name,
+            "inputs": form.inputs
+            // "submissionCount" :count
+          }
+          userMap[form._id] = formObj;
+
+          // console.log(count)
+          // console.log(userMap)
+          // if (count === 0) {
+          //   return res.send("Brand not found!");
+          // }
+        // }
+
+
+
+ 
+        // console.log(getProductCount())
+        // console.log(userMap)
+      
       });
 
       // res.sendStatus(200);
@@ -98,13 +129,16 @@ if (!isDev && cluster.isMaster) {
     });
   });
 
-  var formSubmissionSchema = require('./models/formSubmission');
-  var FormSubmission = connection.model('FormSubmission', formSubmissionSchema);
+  async  getCount => {
+    await FormSubmission.countDocuments({ formId: form.formId }, (err, count) => {
+      return count;
+    });
+  }
 
   app.post('/submit', (req, res) => {
 
     var formSubmission = new FormSubmission({
-      formId:  req.body.payload.form.formId,
+      formId: req.body.payload.form.formId,
       name: req.body.payload.form.name,
       response: req.body.payload.form.response
     });

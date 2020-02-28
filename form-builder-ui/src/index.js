@@ -19,8 +19,8 @@ const routing = (
                     <Nav.Link href="/">Home</Nav.Link>
                     <Nav.Link href="/formBuilder">Form-Builder</Nav.Link>
                     <Nav.Link href="/formList">Form-List</Nav.Link>
-                    <Nav.Link href="/submissions">Form-Submissions</Nav.Link>
-                    <Nav.Link href="/submit">Submit-Form</Nav.Link>
+                    {/* <Nav.Link href="/submissions">Form-Submissions</Nav.Link>
+                    <Nav.Link href="/submit">Submit-Form</Nav.Link> */}
                 </Nav>
             </Navbar.Collapse>
         </Navbar>

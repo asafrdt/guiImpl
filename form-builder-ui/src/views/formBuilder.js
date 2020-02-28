@@ -124,14 +124,8 @@ class FormBuilder extends React.Component {
       payload: payload
     })
 
-    // fetch('/form', {
-    //   method: 'post',
-    //   body: JSON.stringify({payload})
-    // }).then(function (response) {
-    //   console.log(response) 
-    // }).then(function (data) {
-    //   // ChromeSamples.log('Created Gist:', data.html_url);
-    // });
+    this.setState({inputs: []})
+
   }
 
   renderFormAction() {
@@ -170,9 +164,9 @@ class FormBuilder extends React.Component {
   }
 
   renderFormTitle() {
-    if (this.state.inputs.length > 0) {
+    // if (this.state.inputs.length > 0) {
       return (<h2 id="generatedFormTitle" className="header">Generated Form</h2>)
-    }
+    // }
   }
 
   render() {

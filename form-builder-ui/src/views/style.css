@@ -5,8 +5,8 @@
 .generationForm{
     margin: auto;
     padding: 10px;
-    border-width: 2px;
-    border: solid;
+    /* border-width: 2px; */
+    /* border: solid; */
     align-content: center;
     justify-content: center;
 }
@@ -14,8 +14,10 @@
 .generatedForm{
     margin: auto;
     padding: 10px;
-    border-width: 2px;
-    border: solid;
+    border-width: 10px;
+    border-color: green;
+    border: rgb(166, 168, 167) solid;
+    padding: 2%;
     align-content: center;
     justify-content: center;
     margin-top: 2%;
