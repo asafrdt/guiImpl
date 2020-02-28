@@ -6,15 +6,9 @@ const mongoose = require('mongoose');
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 5000;
 
-var autoIncrement = require('mongoose-auto-increment');
 
 var connection = mongoose.createConnection("mongodb://localhost/formbuilder");
-autoIncrement.initialize(connection);
 
-var formSchema = require('./models/form');
-formSchema.plugin(autoIncrement.plugin, { model: 'Form', field: 'formId' });
-
-var Form = connection.model('Form', formSchema);
 
 
 // Multi-process to utilize all CPU cores.
@@ -45,6 +39,14 @@ if (!isDev && cluster.isMaster) {
 
   app.use(bodyParser.json())
 
+  var autoIncrement = require('mongoose-auto-increment');
+  autoIncrement.initialize(connection);
+
+  var formSchema = require('./models/form');
+  formSchema.plugin(autoIncrement.plugin, { model: 'Form', field: 'formId' });
+
+  var Form = connection.model('Form', formSchema);
+
   app.post('/form', (req, res) => {
 
     var form = new Form({
@@ -63,9 +65,9 @@ if (!isDev && cluster.isMaster) {
   app.get('/form/:formId', (req, res) => {
 
     var formId = req.params.formId;
-    console.log(formId)
+    // console.log(formId)
     Form.find({ formId: formId }, function (err, doc) {
-      console.log(doc);
+      // console.log(doc);
 
       var formObj = {
         "formId": doc[0].formId,
@@ -99,9 +101,29 @@ if (!isDev && cluster.isMaster) {
     });
   });
 
+  var formSubmissionSchema = require('./models/formSubmission');
+  var FormSubmission = connection.model('FormSubmission', formSubmissionSchema);
+
+  app.post('/submit', (req, res) => {
+
+    var formSubmission = new FormSubmission({
+      formId:  req.body.payload.form.formId,
+      name: req.body.payload.form.name,
+      response: req.body.payload.form.response
+    });
+
+    // console.log(req)
+    // console.log(req.body.payload.form)
+    formSubmission.save(function (err) {
+
+    });
+    // // res.set('Content-Type', 'application/json');
+    // // res.send('{"message":"success"}');
+    res.sendStatus(200);
+  });
+
   // Answer API requests.
   app.get('/api', function (req, res) {
-
     res.set('Content-Type', 'application/json');
     res.send('{"message":"success"}');
   });

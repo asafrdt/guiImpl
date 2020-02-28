@@ -18,9 +18,8 @@ var formSchema = new Schema({
 
 // the schema is useless so far
 // we need to create a model using it
-var Form = mongoose.model('Form', formSchema);
+// var Form = mongoose.model('Form', formSchema);
 
 // make this available to our forms in our Node applications
-
 module.exports = formSchema;
 

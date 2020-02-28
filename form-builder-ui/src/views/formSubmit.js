@@ -44,8 +44,36 @@ class FormSubmit extends React.Component {
     console.log(input)
     console.log(this.state.inputs)
     
-    
+    var form = this.state.inputs;
+    var response = {};
 
+    Object.keys(form).map((key) => {
+
+      var feildName =form[key].name;
+      var res = input[form[key].key];
+
+      response[feildName] = res ;
+    });
+   
+    console.log(response)
+    console.log(response['name'])
+
+    var submissionObj = {
+      "form": {
+        "formId": this.state.formId,
+        "name": this.state.formName,
+        "response": response
+      }
+    }
+
+    console.log(submissionObj)
+    this.saveSubmissionToDb(submissionObj)
+  }
+
+  saveSubmissionToDb(payload){
+    axios.post('/submit', {
+      payload: payload
+    })
   }
 
   render() {
