@@ -16,8 +16,8 @@ const routing = (
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
-                    <Nav.Link href="/">Home</Nav.Link>
-                    <Nav.Link href="/formBuilder">Form-Builder</Nav.Link>
+                    {/* <Nav.Link href="/">Home</Nav.Link> */}
+                    <Nav.Link href="/">Form-Builder</Nav.Link>
                     <Nav.Link href="/formList">Form-List</Nav.Link>
                     {/* <Nav.Link href="/submissions">Form-Submissions</Nav.Link>
                     <Nav.Link href="/submit">Submit-Form</Nav.Link> */}
@@ -25,8 +25,8 @@ const routing = (
             </Navbar.Collapse>
         </Navbar>
 
-        <Route exact path="/" component={App} />
-        <Route path="/formBuilder" component={FormBuilder} />
+        {/* <Route exact path="/" component={App} /> */}
+        <Route exact path="/" component={FormBuilder} />
         <Route path="/formList" component={FormList} />
         <Route path="/submissions/:formId" component={FormSubmissions} />
         <Route path="/submit/:formId" component={FormSubmit} />

@@ -4,7 +4,7 @@ import { Button, Container, Row, Col, Table, Form, InputGroup, FormControl, Drop
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./style.css";
 
-class FormSubmission extends React.Component {
+class FormSubmissions extends React.Component {
 
   state = {
     validated: false,
@@ -20,7 +20,7 @@ class FormSubmission extends React.Component {
   }
 
   componentDidMount() {
-    axios.get("/submissions/" + this.props.match.params.formId).then((response) => {
+    axios.get("/submission/" + this.props.match.params.formId).then((response) => {
       // console.log(response);
       this.setState({
         responses: response.data
@@ -104,4 +104,4 @@ class FormSubmission extends React.Component {
   }
 
 }
-export default FormSubmission
+export default FormSubmissions

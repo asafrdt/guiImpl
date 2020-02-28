@@ -153,7 +153,7 @@ if (!isDev && cluster.isMaster) {
     res.sendStatus(200);
   });
 
-  app.get('/submissions/:formId', (req, res) => {
+  app.get('/submission/:formId', (req, res) => {
     var formId = req.params.formId;
     FormSubmission.find({ formId: formId }, function (err, submissions) {
       var userMap = {};
