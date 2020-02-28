@@ -60,7 +60,8 @@ class FormBuilder extends React.Component {
       stateInputs.push({ key: countx, label: this.state.labelName, name: this.state.inputName, type: this.state.inputType })
       this.setState({
         inputs: stateInputs,
-        count: countx
+        count: countx,
+        inputType: 'text'
       })
 
       console.log('label- ' + this.state.labelName + ' input -' + this.state.inputName + ' select- ' + this.state.inputType)

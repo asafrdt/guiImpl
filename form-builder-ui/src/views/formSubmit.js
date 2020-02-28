@@ -39,44 +39,20 @@ class FormSubmit extends React.Component {
     })
   }
 
-  submitForm(event){
+  submitForm(input){
     console.log('clcik')
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      this.setState({
-        validated: true,
-        setValidated: true
-      })
-      event.stopPropagation();
-      event.preventDefault();
-    }
+    console.log(input)
+    console.log(this.state.inputs)
+    
+    
 
-    if (form.checkValidity() === true) {
-
-      // var formObj = {
-      //   "form": {
-      //     "name": this.state.formName,
-      //     "inputs": this.state.inputs
-      //   }
-      // }
-
-      // console.log(this.state.formName)
-
-      this.setState({
-        validated: false,
-        setValidated: false
-      })
-      // this.saveFormToDb(formObj)/
-    }
-    event.stopPropagation();
-    event.preventDefault();
   }
 
   render() {
     return (
       <Container className="generatedForm" as={Col} md="5">
       <h1 className="header">{this.state.formName}</h1>
-      <DynamicForm
+      {/* <DynamicForm
         // delete={this.delete}
         key={this.state.current.id}
         validated = {this.state.validated} 
@@ -93,8 +69,21 @@ class FormSubmit extends React.Component {
         onSubmit={inputs => {
           this.submitForm(inputs);
         }}
-      ></DynamicForm>
-
+      ></DynamicForm> */}
+<DynamicForm
+            delete={this.delete}
+            key={this.state.current.id}
+            className="form"
+            title="Registration"
+            // defaultValues={this.state.current}
+            inputs={this.state.inputs}
+            submitBtn= "true"
+            submitBtnText="Submit Form"
+           
+            onSubmit={inputs => {
+              this.submitForm(inputs);
+            }}
+          ></DynamicForm>
       {/* {this.renderFormAction()} */}
     </Container>
     )

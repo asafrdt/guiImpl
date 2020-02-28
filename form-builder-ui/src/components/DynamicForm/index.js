@@ -6,16 +6,38 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 class DynamicForm extends React.Component {
 
-  state = {};
- 
+  state = {
+    validated: false,
+    setValidated: false,
+  };
+
   constructor(props) {
     super(props);
     this.del = this.del.bind(this);
   }
 
+  onSubmitTest = e => {
+    e.stopPropagation();
+    e.preventDefault();
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      this.setState({
+        validated: true,
+        setValidated: true
+      })
+      console.log('false')
+    } else {
+      this.props.onSubmit(this.state);
+      console.log('true')
+      //submit
+    }
+
+  }
+
+
   onSubmit = e => {
     e.preventDefault();
-    if (this.props.onSubmit) this.props.onSubmit(this.state);
+    this.props.onSubmit(this.state);
   };
 
   onChange = (e, key) => {
@@ -53,6 +75,7 @@ class DynamicForm extends React.Component {
 
         <Form.Control
           //   {...props}
+          required
           className="form-input"
           type={type}
           key={key}
@@ -64,31 +87,58 @@ class DynamicForm extends React.Component {
       );
 
       return (
-        <Form.Group key={"g" + key} as={Row} controlId="">
-            <InputGroup>
+        // <Form.Group key={"g" + key} as={Row} controlId="">
+        //   <InputGroup>
+        //     <Form.Label className="form-label" key={"l" + key} column md="3">
+        //       {label}
+        //     </Form.Label>
+        //     <Col md="7">
+        //       required
+        //       <Form.Control.Feedback type="invalid">
+        //         Please choose a username.
+        //           </Form.Control.Feedback>
+        //     </Col>
+        //     {this.renderDeleteButton({ key })}
+        //   </InputGroup>
+        // </Form.Group>
+
+
+        <Form.Group as={Row} key={"g" + key} controlId="">
           <Form.Label className="form-label" key={"l" + key} column md="3">
             {label}
           </Form.Label>
           <Col md="7">
+            {/* <Form.Control
+              required
+              className="form-input"
+              type="text"
+              name="formName"
+            // onChange={this.handleChange}
+            /> */}
             {input}
             <Form.Control.Feedback type="invalid">
-                    Please choose a username.
-                </Form.Control.Feedback>
+              Please enter a {name}.
+        </Form.Control.Feedback>
           </Col>
-          {this.renderDeleteButton({ key })}
-          </InputGroup>
         </Form.Group>
+
+
       );
     });
     return formUI;
   };
 
-  renderSubmitButton = (key) => {
-    if (this.props.submitBtnClick != null) {
+  renderSubmitButton = () => {
+    if (this.props.submitBtn == "true") {
       return (
-        <Row className="centerContent">
-          <button className="btn btn-primary" type="submit">{this.props.submitBtnText}</button>
-        </Row>
+        // <Row className="centerContent">
+        //   <button className="btn btn-primary" type="submit">{this.props.submitBtnText}</button>
+        // </Row>
+        <Form.Group as={Row} className="centerContent" controlId="">
+          <Col md="1">
+            <button className="btn btn-success" type="submit">Save</button>
+          </Col>
+        </Form.Group>
       )
     }
   }
@@ -104,16 +154,19 @@ class DynamicForm extends React.Component {
   }
 
   render() {
-    let title = this.props.title || "Dynamic Form";
     return (
       <div>
-        <Form md="12" id={this.props.formId} noValidate validated={this.props.validated} onSubmit={this.props.onSubmit}>
+        {/* <Form md="12" id={this.props.formId} noValidate validated={this.props.validated} onSubmit={this.onSubmitTest}>
+        {this.renderForm()}
+        {this.renderSubmitButton()}
+      </Form> */}
+        <Form id="generated-form" noValidate validated={this.state.validated} onSubmit={this.onSubmitTest}>
           {this.renderForm()}
           {this.renderSubmitButton()}
         </Form>
       </div>
     );
+
   }
 }
-
 export default DynamicForm
