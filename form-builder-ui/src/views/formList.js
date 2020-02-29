@@ -4,7 +4,7 @@ import { Button, Container, Row, Col, Table, InputGroup, Form, FormControl, Drop
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 class FormList extends React.Component {
-
+  //state variables
   state = {
     validated: false,
     setValidated: false,
@@ -13,13 +13,11 @@ class FormList extends React.Component {
 
   constructor(props) {
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.getForm = this.getForm.bind(this);
   }
 
   componentDidMount() {
+    //fetxhing forms
     axios.get('/forms').then((response) => {
-      console.log(response);
       this.setState({
         forms: response.data
       })
@@ -29,88 +27,46 @@ class FormList extends React.Component {
     })
   }
 
-
-
-  handleSubmit(event) {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-    this.setState({
-      validated: true,
-      setValidated: true
-    })
-  }
-
+  // generate table
   generateTable() {
-    console.log(this.state.forms)
-    let forms = this.state.forms;
+    var forms = this.state.forms;
+    var tableRow = Object.keys(forms).map((key) => {
 
-    let tableRow = Object.keys(forms).map((key) => {
-      // console.log(froms[key])
-      console.log(forms[key]['formId'])
-      console.log(forms[key]['name'])
-      var inputs = forms[key]['inputs'];
-
-      forms[key]['inputs'].map((input) => {
-      console.log(input)
-    });
-
-    return (
-      <tr key={key}>
-        <td>{forms[key]['formId']}</td>
-        <td>{forms[key]['name']}</td>
-        <td>{forms[key]['submissionCount']}</td>
-        {/* <td><button value={forms[key]['formId']} onClick={this.getForm}>ll</button></td> */}
-        <td><u><a href={"/submit/"+forms[key]['formId']}>View</a></u></td>
-        <td><u><a href={"/submissions/"+forms[key]['formId']}>View</a></u></td>
-      </tr>
-    )
-  })
+      return (
+        <tr key={key}>
+          <td>{forms[key]['formId']}</td>
+          <td>{forms[key]['name']}</td>
+          <td>{forms[key]['submissionCount']}</td>
+          <td><u><a href={"/submit/" + forms[key]['formId']}>View</a></u></td>
+          <td><u><a href={"/submissions/" + forms[key]['formId']}>View</a></u></td>
+        </tr>
+      )
+    })
 
     return tableRow;
   }
 
-  getForm(event){
-    console.log('response');
-    console.log(event.target.value);
-    var formId= event.target.value;
-
-    axios.get('/form?formId='+formId).then((response) => {
-      console.log(response);
-      // this.setState({
-      //   forms: response.data
-      // })
-    }).catch(function (error) {
-      // handle error
-      console.log(error);
-    })
+  render() {
+    return (
+      <Container>
+        <h1 className="header">Form List</h1>
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Form Id</th>
+              <th>Form Name</th>
+              <th># Submissions</th>
+              <th>Submit Page</th>
+              <th>Submissions Page</th>
+            </tr>
+          </thead>
+          <tbody >
+            {this.generateTable()}
+          </tbody >
+        </Table>
+      </Container >
+    )
   }
-
-render() {
-  return (
-    <Container>
-      <h1 className="header">Form List</h1>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>Form Id</th>
-            <th>Form Name</th>
-            <th># Submissions</th>
-            <th>Submit Page</th>
-            <th>Submissions Page</th>
-          </tr>
-        </thead>
-
-        <tbody >
-          {this.generateTable()}
-        </tbody >
-
-      </Table>
-    </Container >
-  )
-}
 
 }
 
