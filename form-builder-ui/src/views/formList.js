@@ -11,10 +11,6 @@ class FormList extends React.Component {
     forms: {}
   };
 
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     //fetxhing forms
     axios.get('/forms').then((response) => {
