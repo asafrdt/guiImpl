@@ -46,7 +46,7 @@ class FormSubmit extends React.Component {
     Object.keys(form).map((key) => {
       var feildName = form[key].name;
       var res = input[form[key].key];
-      if(feildName == 'color' && res == null){
+      if(feildName === 'color' && res == null){
         response[feildName] = '#000000'
       }else{
         response[feildName] = res;
