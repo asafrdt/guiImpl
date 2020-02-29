@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Button, Container, Row, Col, Form, InputGroup, FormControl, DropdownButton, Dropdown } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./style.css";
+import { Redirect } from 'react-router-dom';
 
 class FormBuilder extends React.Component {
 
@@ -19,7 +20,8 @@ class FormBuilder extends React.Component {
     validatedGeneratedForm: false,
     setValidated: false,
     setValidatedGeneratedForm: false,
-    formName: ''
+    formName: '',
+    redirect: false
   };
 
   constructor(props) {
@@ -30,6 +32,7 @@ class FormBuilder extends React.Component {
     this.renderFormAction = this.renderFormAction.bind(this);
     this.renderFormTitle = this.renderFormTitle.bind(this);
     this.saveForm = this.saveForm.bind(this);
+    this.renderRedirect = this.renderRedirect.bind(this);
     this.handleSelectionChange = this.handleSelectionChange.bind(this);
     this.delete = this.delete.bind(this);
   }
@@ -122,16 +125,27 @@ class FormBuilder extends React.Component {
 
     axios.post('/form', {
       payload: payload
+    }).then((response) => {
+      console.log(response);
+      setTimeout(() => {
+        this.setState({
+          redirect: true
+        })
+      }, 3000);
     })
+  }
 
-    this.setState({inputs: []})
-
+  renderRedirect() {
+    if (this.state.redirect) {
+      return <Redirect to='/formList' />
+    }
   }
 
   renderFormAction() {
     if (this.state.inputs.length > 0) {
       return (
         <div>
+          {this.renderRedirect()}
           <hr />
           <Form id="generated-form" noValidate validated={this.state.validatedGeneratedForm} onSubmit={this.saveForm}>
             <Form.Group as={Row} controlId="">

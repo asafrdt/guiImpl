@@ -4,6 +4,8 @@ import DynamicForm from "../components/DynamicForm";
 import { Button, Container, Row, Col, Form, InputGroup, FormControl, DropdownButton, Dropdown } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./style.css";
+import { Redirect } from 'react-router-dom';
+
 class FormSubmit extends React.Component {
 
   state = {
@@ -20,13 +22,14 @@ class FormSubmit extends React.Component {
     super(props)
     console.log(this.props.match.params.formId)
     this.submitForm = this.submitForm.bind(this);
+    this.renderRedirect = this.renderRedirect.bind(this);
     // this.setState({
     //   formId:this.props.match.params.formId
     // })
   }
 
-  componentDidMount() { 
-    axios.get("/form/"+this.props.match.params.formId).then((response) => {
+  async componentDidMount() { 
+   await axios.get("/form/"+this.props.match.params.formId).then((response) => {
       console.log(response);
       this.setState({
         inputs: response.data.inputs,
@@ -73,13 +76,26 @@ class FormSubmit extends React.Component {
   saveSubmissionToDb(payload){
     axios.post('/submit', {
       payload: payload
+    }).then((response) => {
+      console.log(response);
+      setTimeout(() => {
+        this.setState({
+          redirect: true
+        })
+      }, 3000);
     })
-    document.getElementById("generated-form").reset()
+  }
+
+  renderRedirect() {
+    if (this.state.redirect) {
+      return <Redirect to='/formList' />
+    }
   }
 
   render() {
     return (
       <Container className="generatedForm" as={Col} md="5">
+      {this.renderRedirect()}
       <h1 className="header">{this.state.formName}</h1>
       {/* <DynamicForm
         // delete={this.delete}

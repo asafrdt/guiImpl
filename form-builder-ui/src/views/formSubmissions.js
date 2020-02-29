@@ -11,8 +11,8 @@ class FormSubmissions extends React.Component {
     setValidated: false,
     forms: {},
     responses: {},
-    formId:'',
-    name:''
+    formId: '',
+    name: ''
   };
 
   constructor(props) {
@@ -29,10 +29,9 @@ class FormSubmissions extends React.Component {
       Object.keys(response.data).slice(0, 1).map((key) => {
         // console.log(key)
         console.log(key)
-  
         this.setState({
-          formId:response.data[key].formId,
-          name:response.data[key].name
+          formId: response.data[key].formId,
+          name: response.data[key].name
         });
       })
     }).catch(function (error) {

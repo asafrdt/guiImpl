@@ -61,7 +61,7 @@ class FormList extends React.Component {
       <tr key={key}>
         <td>{forms[key]['formId']}</td>
         <td>{forms[key]['name']}</td>
-        <td>0</td>
+        <td>{forms[key]['submissionCount']}</td>
         {/* <td><button value={forms[key]['formId']} onClick={this.getForm}>ll</button></td> */}
         <td><u><a href={"/submit/"+forms[key]['formId']}>View</a></u></td>
         <td><u><a href={"/submissions/"+forms[key]['formId']}>View</a></u></td>

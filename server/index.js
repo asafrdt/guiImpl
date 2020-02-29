@@ -42,100 +42,88 @@ if (!isDev && cluster.isMaster) {
   autoIncrement.initialize(connection);
 
   var formSchema = require('./models/form');
-  formSchema.plugin(autoIncrement.plugin, { model: 'Form', field: 'formId' });
+  formSchema.plugin(autoIncrement.plugin, { model: 'Form', field: 'formId', startAt: 1 });
 
   var Form = connection.model('Form', formSchema);
 
-  app.post('/form', (req, res) => {
+  app.post('/form', async (req, res) => {
 
     var form = new Form({
       name: req.body.payload.form.name,
       inputs: req.body.payload.form.inputs
     });
 
-    form.save(function (err) {
+    await form.save().catch(function (err) {
+      console.log.length(err)
+    })
 
-    });
-    // res.set('Content-Type', 'application/json');
-    // res.send('{"message":"success"}');
     res.sendStatus(200);
   });
 
-  app.get('/form/:formId', (req, res) => {
+  app.get('/form/:formId', async (req, res) => {
 
     var formId = req.params.formId;
-    // console.log(formId)
-    Form.find({ formId: formId }, function (err, doc) {
-      // console.log(doc);
+    var form = await Form.find({ formId: formId }).catch(function (err) {
+      console.log.length(err)
+    })
 
-      var formObj = {
-        "formId": doc[0].formId,
-        "name": doc[0].name,
-        "inputs": doc[0].inputs
-      }
+    var formObj = {
+      "formId": form[0]['formId'],
+      "name": form[0]['name'],
+      "inputs": form[0]['inputs']
+    }
 
-      res.set('Content-Type', 'application/json');
-      res.send(formObj);
-    });
+    console.log(formObj)
+    res.set('Content-Type', 'application/json');
+    res.send(formObj);
   });
 
   var formSubmissionSchema = require('./models/formSubmission');
   var FormSubmission = connection.model('FormSubmission', formSubmissionSchema);
 
-  app.get('/forms', function (req, res) {
-    Form.find({}, function (err, forms) {
-      var userMap = {};
-      forms.forEach(function (form) {
-        var formObj = {}
+  app.get('/forms', async (req, res) => {
+    var formSubmissionCount = [];
+    var formsListMap = {}
 
-        var c = 0;
+    const formsList = await Form.find({}).catch(function (err) {
+      console.log.length(err)
+    })
 
-        // FormSubmission.countDocuments({ formId: form.formId }, function (err, count) {
-        //   console.log('there are %d jungle adventures', count);
-        //   c =  count;
-        // });
-        // let smaquery = {formId: form.formId}
-        // let getProductCount = async function (smaquery) {
-        //   let count = await FormSubmission.countDocuments(smaquery);
+    formsList.map(async form => {
+      var formObj = {
+        "formId": form.formId,
+        "name": form.name,
+        "inputs": form.inputs
+      }
+      formsListMap[form.formId] = formObj;
+      formSubmissionCount.push(sum(form.formId))
+    })
 
+    // console.log(formsListMap)
 
-          var formObj = {
-            "formId": form.formId,
-            "name": form.name,
-            "inputs": form.inputs
-            // "submissionCount" :count
-          }
-          userMap[form._id] = formObj;
+    const submissionCounts = await Promise.all(formSubmissionCount)
 
-          // console.log(count)
-          // console.log(userMap)
-          // if (count === 0) {
-          //   return res.send("Brand not found!");
-          // }
-        // }
+    Object.keys(submissionCounts).map((key) => {
+      var pointer = parseInt(key) + 1;
 
+      if (formsListMap[pointer].formId == pointer) {
+        formsListMap[pointer]["submissionCount"] = submissionCounts[key]
+      }
+    })
 
-
- 
-        // console.log(getProductCount())
-        // console.log(userMap)
-      
-      });
-
-      // res.sendStatus(200);
-      res.set('Content-Type', 'application/json');
-      res.send(userMap);
-
-    });
+    res.set('Content-Type', 'application/json');
+    res.send(formsListMap);
   });
 
-  async  getCount => {
-    await FormSubmission.countDocuments({ formId: form.formId }, (err, count) => {
-      return count;
-    });
+
+  async function sum(id) {
+    var submissions = await FormSubmission.find({ formId: id }).catch(function (err) {
+      console.log.length(err)
+    })
+    return submissions.length;
   }
 
-  app.post('/submit', (req, res) => {
+  app.post('/submit', async (req, res) => {
 
     var formSubmission = new FormSubmission({
       formId: req.body.payload.form.formId,
@@ -143,35 +131,32 @@ if (!isDev && cluster.isMaster) {
       response: req.body.payload.form.response
     });
 
-    // console.log(req)
-    // console.log(req.body.payload.form)
-    formSubmission.save(function (err) {
-
-    });
-    // // res.set('Content-Type', 'application/json');
-    // // res.send('{"message":"success"}');
+    await formSubmission.save().catch(function (err) {
+      console.log.length(err)
+    })
     res.sendStatus(200);
+
   });
 
-  app.get('/submission/:formId', (req, res) => {
+  app.get('/submission/:formId', async (req, res) => {
     var formId = req.params.formId;
-    FormSubmission.find({ formId: formId }, function (err, submissions) {
-      var userMap = {};
-      submissions.forEach(function (submission) {
+    var submissionsList = {};
 
-        var formSubmissionObj = {
-          "formId": submission.formId,
-          "name": submission.name,
-          "response": submission.response
+    var submissions = await FormSubmission.find({ formId: formId }).catch(function (err){
+      console.log.length(err)
+    })
 
-        }
-        userMap[submission._id] = formSubmissionObj;
-      });
-
-      res.set('Content-Type', 'application/json');
-      res.send(userMap);
-
+    submissions.forEach((submission) => {
+      var formSubmissionObj = {
+        "formId": submission.formId,
+        "name": submission.name,
+        "response": submission.response
+      }
+      submissionsList[submission._id] = formSubmissionObj;
     });
+
+    res.set('Content-Type', 'application/json');
+    res.send(submissionsList);
   });
 
   // Answer API requests.
