@@ -115,6 +115,7 @@ class DynamicForm extends React.Component {
               {feedback}
             </Form.Control.Feedback>
           </Col>
+          {this.renderDeleteButton(key)}
         </Form.Group>
       );
     });
