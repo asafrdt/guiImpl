@@ -5,7 +5,7 @@ import { Button, Container, Row, Col, Form, InputGroup, FormControl, DropdownBut
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 class DynamicForm extends React.Component {
-
+  // state variables
   state = {
     validated: false,
     setValidated: false,
@@ -16,7 +16,8 @@ class DynamicForm extends React.Component {
     this.del = this.del.bind(this);
   }
 
-  onSubmitTest = e => {
+  // form submit action
+  onSubmitForm = e => {
     e.stopPropagation();
     e.preventDefault();
     const form = e.currentTarget;
@@ -25,13 +26,9 @@ class DynamicForm extends React.Component {
         validated: true,
         setValidated: true
       })
-      console.log('false')
     } else {
       this.props.onSubmit(this.state);
-      console.log('true')
-      //submit
     }
-
   }
 
 
@@ -40,8 +37,8 @@ class DynamicForm extends React.Component {
     this.props.onSubmit(this.state);
   };
 
+  // input onchange action
   onChange = (e, key) => {
-    console.log(`${key} changed ${e.target.value}`);
     this.setState(
       {
         [key]: e.target.value
@@ -50,23 +47,21 @@ class DynamicForm extends React.Component {
     );
   };
 
+  // delete button action
   del = ({ target }) => {
     this.setState({ [target.name]: target.value });
-    console.log(target.id)
     this.props.delete(target.id);
 
   };
 
   renderForm = () => {
-    let inputs = this.props.inputs;
-    // let defaultValues = this.props.defaultValues;
-    let formUI = inputs.map(m => {
-      let key = m.key;
-      let type = m.type || "text";
-      //   let props = m.props || {};
-      let name = m.name;
-      let label = m.label;
-      let value = m.value;
+    var inputs = this.props.inputs;
+    var formUI = inputs.map(m => {
+      var key = m.key;
+      var type = m.type || "text";
+      var name = m.name;
+      var label = m.label;
+      var value = m.value;
 
       let target = key;
       value = this.state[target] || "";
@@ -80,7 +75,6 @@ class DynamicForm extends React.Component {
 
         input = (
           <Form.Control
-            //   {...props}
             pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
             required
             className="form-input"
@@ -97,7 +91,6 @@ class DynamicForm extends React.Component {
       else {
         input = (
           <Form.Control
-            //   {...props}
             required
             className="form-input"
             placeholder={pl}
@@ -111,45 +104,18 @@ class DynamicForm extends React.Component {
         );
       }
 
-
-
       return (
-        // <Form.Group key={"g" + key} as={Row} controlId="">
-        //   <InputGroup>
-        //     <Form.Label className="form-label" key={"l" + key} column md="3">
-        //       {label}
-        //     </Form.Label>
-        //     <Col md="7">
-        //       required
-        //       <Form.Control.Feedback type="invalid">
-        //         Please choose a username.
-        //           </Form.Control.Feedback>
-        //     </Col>
-        //     {this.renderDeleteButton({ key })}
-        //   </InputGroup>
-        // </Form.Group>
-
-
         <Form.Group as={Row} key={"g" + key} controlId="">
           <Form.Label className="form-label" key={"l" + key} column md="3">
             {label}
           </Form.Label>
           <Col md="7">
-            {/* <Form.Control
-              required
-              className="form-input"
-              type="text"
-              name="formName"
-            // onChange={this.handleChange}
-            /> */}
             {input}
             <Form.Control.Feedback type="invalid">
               {feedback}
             </Form.Control.Feedback>
           </Col>
         </Form.Group>
-
-
       );
     });
     return formUI;
@@ -158,9 +124,6 @@ class DynamicForm extends React.Component {
   renderSubmitButton = () => {
     if (this.props.submitBtn == "true") {
       return (
-        // <Row className="centerContent">
-        //   <button className="btn btn-primary" type="submit">{this.props.submitBtnText}</button>
-        // </Row>
         <Form.Group as={Row} className="centerContent" controlId="">
           <Col md="1">
             <button className="btn btn-success" type="submit">Save</button>
@@ -183,11 +146,7 @@ class DynamicForm extends React.Component {
   render() {
     return (
       <div>
-        {/* <Form md="12" id={this.props.formId} noValidate validated={this.props.validated} onSubmit={this.onSubmitTest}>
-        {this.renderForm()}
-        {this.renderSubmitButton()}
-      </Form> */}
-        <Form id="generated-form" noValidate validated={this.state.validated} onSubmit={this.onSubmitTest}>
+        <Form id="generated-form" noValidate validated={this.state.validated} onSubmit={this.onSubmitForm}>
           {this.renderForm()}
           {this.renderSubmitButton()}
         </Form>
