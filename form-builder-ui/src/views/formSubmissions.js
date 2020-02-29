@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./style.css";
 
 class FormSubmissions extends React.Component {
-
+  // state variables
   state = {
     validated: false,
     setValidated: false,
@@ -20,15 +20,13 @@ class FormSubmissions extends React.Component {
   }
 
   componentDidMount() {
+    // fetch submissions
     axios.get("/submission/" + this.props.match.params.formId).then((response) => {
-      // console.log(response);
       this.setState({
         responses: response.data
       })
 
       Object.keys(response.data).slice(0, 1).map((key) => {
-        // console.log(key)
-        console.log(key)
         this.setState({
           formId: response.data[key].formId,
           name: response.data[key].name
@@ -40,8 +38,9 @@ class FormSubmissions extends React.Component {
     })
   }
 
+  // generate table header
   generateTableHeader() {
-    let responses = this.state.responses || {};
+    var responses = this.state.responses || {};
     var formControls = responses['formControls'];
     if (formControls != null) {
       let tableHeader = Object.keys(formControls).map((key) => {
@@ -58,33 +57,27 @@ class FormSubmissions extends React.Component {
     }
   }
 
+  // generate table row
   generateTableRow() {
-    let responses = this.state.responses || {};
-
+    var responses = this.state.responses || {};
     var formControls = responses['formControls'];
 
-    console.log(responses)
-
-    let tableRow = Object.keys(responses).slice(0, -1).map((key) => {
-      console.log(responses)
-      let td = Object.keys(responses[key].response).map((key1) => {
-        // console.log(key1)
+    var tableRow = Object.keys(responses).slice(0, -1).map((key) => {
+      var td = Object.keys(responses[key].response).map((key1) => {
         var control = formControls.find(control => control.name == key1);
-        console.log(control['type'] == 'color')
 
         if (control['type'] == 'color') {
-          let td = (
+          var td = (
             <td key={key1} bgcolor={responses[key].response[key1]}>{responses[key].response[key1]}</td>
           )
           return td
         }
         else {
-          let td = (
+          var td = (
             <td key={key1}>{responses[key].response[key1]}</td>
           )
           return td
         }
-
       });
 
       return (
@@ -93,6 +86,7 @@ class FormSubmissions extends React.Component {
         </tr>
       )
     })
+
     return tableRow;
   }
 
@@ -104,15 +98,13 @@ class FormSubmissions extends React.Component {
           <thead>
             {this.generateTableHeader()}
           </thead>
-
           <tbody >
             {this.generateTableRow()}
           </tbody >
-
         </Table>
       </Container >
     )
   }
-
 }
+
 export default FormSubmissions
