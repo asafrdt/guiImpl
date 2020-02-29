@@ -7,7 +7,7 @@ import "./style.css";
 import { Redirect } from 'react-router-dom';
 
 class FormBuilder extends React.Component {
-
+  // state variables
   state = {
     inputs: [],
     count: 0,
@@ -26,25 +26,22 @@ class FormBuilder extends React.Component {
 
   constructor(props) {
     super(props);
-
+    //binding state to methods
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.renderFormAction = this.renderFormAction.bind(this);
     this.renderFormTitle = this.renderFormTitle.bind(this);
     this.saveForm = this.saveForm.bind(this);
     this.renderRedirect = this.renderRedirect.bind(this);
-    this.handleSelectionChange = this.handleSelectionChange.bind(this);
     this.delete = this.delete.bind(this);
   }
 
-  handleSelectionChange(event) {
-    this.setState({ inputType: event.target.value });
-  }
-
+  // updating state on input change
   handleChange = ({ target }) => {
     this.setState({ [target.name]: target.value });
   };
 
+  // form submit action
   handleSubmit(event) {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
@@ -60,25 +57,23 @@ class FormBuilder extends React.Component {
       var countx = this.state.count;
       countx++;
 
+      // adding created elements to state
       stateInputs.push({ key: countx, label: this.state.labelName, name: this.state.inputName, type: this.state.inputType })
       this.setState({
         inputs: stateInputs,
         count: countx,
-        inputType: 'text'
-      })
-
-      console.log('label- ' + this.state.labelName + ' input -' + this.state.inputName + ' select- ' + this.state.inputType)
-      console.log(this.state.inputs)
-      document.getElementById("generation-form").reset();
-      this.setState({
+        inputType: 'text',
         validated: false,
         setValidated: false
       })
     }
+
+    document.getElementById("generation-form").reset();
     event.stopPropagation();
     event.preventDefault();
   }
 
+  // delete button action
   delete(val) {
     var modelArray = [...this.state.inputs]; // make a separate copy of the array
     var index = modelArray.indexOf(val) - 1;
@@ -88,8 +83,8 @@ class FormBuilder extends React.Component {
     }
   }
 
+  // save form action
   saveForm(event) {
-    console.log(this.state.inputs)
 
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
@@ -100,16 +95,12 @@ class FormBuilder extends React.Component {
     }
 
     if (form.checkValidity() === true) {
-
       var formObj = {
         "form": {
           "name": this.state.formName,
           "inputs": this.state.inputs
         }
       }
-
-      console.log(this.state.formName)
-
       this.setState({
         validatedGeneratedForm: false,
         setValidatedGeneratedForm: false
@@ -120,9 +111,8 @@ class FormBuilder extends React.Component {
     event.preventDefault();
   }
 
-
+  //saving form data to db
   saveFormToDb(payload){
-
     axios.post('/form', {
       payload: payload
     }).then((response) => {
@@ -135,6 +125,7 @@ class FormBuilder extends React.Component {
     })
   }
 
+  // redirection action
   renderRedirect() {
     if (this.state.redirect) {
       return <Redirect to='/formList' />
@@ -151,7 +142,7 @@ class FormBuilder extends React.Component {
             <Form.Group as={Row} controlId="">
               <Form.Label className="form-label" column md="3">
                 Form Name
-          </Form.Label>
+              </Form.Label>
               <Col md="7">
                 <Form.Control
                   required
@@ -178,19 +169,14 @@ class FormBuilder extends React.Component {
   }
 
   renderFormTitle() {
-    // if (this.state.inputs.length > 0) {
       return (<h2 id="generatedFormTitle" className="header">Generated Form</h2>)
-    // }
   }
 
   render() {
-
     return (
       <div>
         <h1 className="header">FormBuilder</h1>
-
         <Container className="generationForm" md="8">
-
           <Form id="generation-form" noValidate validated={this.state.validated} onSubmit={this.handleSubmit}>
             <Form.Row className="generationForm">
               <Form.Group as={Col} md="3" controlId="validationCustomUsername">
@@ -263,17 +249,14 @@ class FormBuilder extends React.Component {
 
         <Container className="generatedForm" as={Col} md="5">
           {this.renderFormTitle()}
+
           <DynamicForm
             delete={this.delete}
             key={this.state.current.id}
             className="form"
             title="Registration"
             deleteButtons="true"
-            // defaultValues={this.state.current}
             inputs={this.state.inputs}
-            // onSubmit={inputs => {
-            //   this.onSubmit(inputs);
-            // }}
           ></DynamicForm>
 
           {this.renderFormAction()}
