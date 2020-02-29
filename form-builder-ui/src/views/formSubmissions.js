@@ -42,42 +42,54 @@ class FormSubmissions extends React.Component {
 
   generateTableHeader() {
     let responses = this.state.responses || {};
-
-    let tableHeader = Object.keys(responses).slice(0, 1).map((key) => {
-
-      let thead = Object.keys(responses[key].response).map((key1) => {
-
+    var formControls = responses['formControls'];
+    if (formControls != null) {
+      let tableHeader = Object.keys(formControls).map((key) => {
         let thead = (
-          <th key={key1}>{key1}</th>
+          <th key={key}>{formControls[key]['label']}</th>
         )
         return thead
-      });
-
+      })
       return (
-        <tr key={key}>
-          {thead}
+        <tr>
+          {tableHeader}
         </tr>
       )
-    })
-    return tableHeader;
+    }
   }
 
   generateTableRow() {
     let responses = this.state.responses || {};
 
-    let tableRow = Object.keys(responses).map((key) => {
+    var formControls = responses['formControls'];
 
-      let thead = Object.keys(responses[key].response).map((key1) => {
+    // console.log(formControls)
 
-        let thead = (
-          <td key={key1}>{responses[key].response[key1]}</td>
-        )
-        return thead
+    let tableRow = Object.keys(responses).slice(0, -1).map((key) => {
+
+      let td = Object.keys(responses[key].response).map((key1) => {
+        // console.log(key1)
+        var control = formControls.find(control => control.name == key1);
+        console.log(control['type'] == 'color')
+
+        if (control['type'] == 'color') {
+          let td = (
+            <td key={key1} bgcolor={responses[key].response[key1]}>{responses[key].response[key1]}</td>
+          )
+          return td
+        }
+        else {
+          let td = (
+            <td key={key1}>{responses[key].response[key1]}</td>
+          )
+          return td
+        }
+
       });
 
       return (
         <tr key={key}>
-          {thead}
+          {td}
         </tr>
       )
     })

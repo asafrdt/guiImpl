@@ -142,6 +142,10 @@ if (!isDev && cluster.isMaster) {
     var formId = req.params.formId;
     var submissionsList = {};
 
+    var form = await Form.find({ formId: formId }).catch(function (err) {
+      console.log.length(err)
+    })
+
     var submissions = await FormSubmission.find({ formId: formId }).catch(function (err){
       console.log.length(err)
     })
@@ -154,6 +158,8 @@ if (!isDev && cluster.isMaster) {
       }
       submissionsList[submission._id] = formSubmissionObj;
     });
+
+    submissionsList['formControls'] = form[0].inputs;
 
     res.set('Content-Type', 'application/json');
     res.send(submissionsList);
