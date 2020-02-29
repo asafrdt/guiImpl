@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import "./form.css";
 import { Row, Col, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -66,11 +65,10 @@ class DynamicForm extends React.Component {
       let target = key;
       value = this.state[target] || "";
       var pl = "Please enter a " + type;
-      var pattern = "*";
       var feedback = "Please enter a valid " + type;
 
       var input = "";
-      if (type == "tel") {
+      if (type === "tel") {
         feedback = "Please tel eg: 111-22-333"
 
         input = (
@@ -123,7 +121,7 @@ class DynamicForm extends React.Component {
   };
 
   renderSubmitButton = () => {
-    if (this.props.submitBtn == "true") {
+    if (this.props.submitBtn === "true") {
       return (
         <Form.Group as={Row} className="centerContent" controlId="">
           <Col md="1">
@@ -135,7 +133,7 @@ class DynamicForm extends React.Component {
   }
 
   renderDeleteButton = (key) => {
-    if (this.props.deleteButtons == "true") {
+    if (this.props.deleteButtons === "true") {
       return (
         <Col md="1">
           <button id={key} className="btn btn-danger" type="button" onClick={this.del}>Delete</button>
