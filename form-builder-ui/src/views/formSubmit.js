@@ -43,23 +43,29 @@ class FormSubmit extends React.Component {
   }
 
   submitForm(input){
-    console.log('clcik')
-    console.log(input)
-    console.log(this.state.inputs)
+    // console.log('clcik')
+    // console.log(input)
+    // console.log(this.state.inputs)
     
     var form = this.state.inputs;
+    // console.log(form)
     var response = {};
 
     Object.keys(form).map((key) => {
 
       var feildName =form[key].name;
+
+      // console.log(form[key].key)
+
       var res = input[form[key].key];
+
+      // console.log(feildName+" - "+res)
 
       response[feildName] = res ;
     });
-   
-    console.log(response)
-    console.log(response['name'])
+    // console.log(response)
+    // console.log(response)
+    // console.log(response['name'])
 
     var submissionObj = {
       "form": {
@@ -69,7 +75,7 @@ class FormSubmit extends React.Component {
       }
     }
 
-    console.log(submissionObj)
+    // console.log(submissionObj)
     this.saveSubmissionToDb(submissionObj)
   }
 

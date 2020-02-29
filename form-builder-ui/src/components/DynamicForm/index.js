@@ -70,21 +70,48 @@ class DynamicForm extends React.Component {
 
       let target = key;
       value = this.state[target] || "";
+      var pl = "Please enter a " + type;
+      var pattern = "*";
+      var feedback = "Please enter a valid " + type;
 
-      let input = (
+      var input = "";
+      if (type == "tel") {
+        feedback = "Please tel eg: 111-22-333"
 
-        <Form.Control
-          //   {...props}
-          required
-          className="form-input"
-          type={type}
-          key={key}
-          name={name}
-          value={value}
-          onChange={e => {
-            this.onChange(e, target);
-          }} />
-      );
+        input = (
+          <Form.Control
+            //   {...props}
+            pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
+            required
+            className="form-input"
+            placeholder={pl}
+            type={type}
+            key={key}
+            name={name}
+            value={value}
+            onChange={e => {
+              this.onChange(e, target);
+            }} />
+        );
+      }
+      else {
+        input = (
+          <Form.Control
+            //   {...props}
+            required
+            className="form-input"
+            placeholder={pl}
+            type={type}
+            key={key}
+            name={name}
+            value={value}
+            onChange={e => {
+              this.onChange(e, target);
+            }} />
+        );
+      }
+
+
 
       return (
         // <Form.Group key={"g" + key} as={Row} controlId="">
@@ -117,8 +144,8 @@ class DynamicForm extends React.Component {
             /> */}
             {input}
             <Form.Control.Feedback type="invalid">
-              Please enter a {name}.
-        </Form.Control.Feedback>
+              {feedback}
+            </Form.Control.Feedback>
           </Col>
         </Form.Group>
 

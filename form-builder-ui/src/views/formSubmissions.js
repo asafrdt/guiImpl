@@ -63,10 +63,10 @@ class FormSubmissions extends React.Component {
 
     var formControls = responses['formControls'];
 
-    // console.log(formControls)
+    console.log(responses)
 
     let tableRow = Object.keys(responses).slice(0, -1).map((key) => {
-
+      console.log(responses)
       let td = Object.keys(responses[key].response).map((key1) => {
         // console.log(key1)
         var control = formControls.find(control => control.name == key1);
