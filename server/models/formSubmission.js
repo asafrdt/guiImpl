@@ -9,7 +9,6 @@ var formSubmissionSchema = new Schema({
     response: Object
 });
 
-
 // make this available to our forms in our Node applications
 module.exports = formSubmissionSchema;
 

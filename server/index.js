@@ -7,8 +7,6 @@ const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 5000;
 
 var connection = mongoose.createConnection("mongodb+srv://sangeeth:sangeeth2020@cluster0-55xpb.mongodb.net/formbuilder");
-// var connection = mongoose.createConnection("mongodb://localhost/formbuilder");
-
 
 // Multi-process to utilize all CPU cores.
 if (!isDev && cluster.isMaster) {
@@ -46,6 +44,7 @@ if (!isDev && cluster.isMaster) {
 
   var Form = connection.model('Form', formSchema);
 
+  // form post method
   app.post('/form', async (req, res) => {
 
     var form = new Form({
@@ -60,6 +59,7 @@ if (!isDev && cluster.isMaster) {
     res.sendStatus(200);
   });
 
+  // get form by id
   app.get('/form/:formId', async (req, res) => {
 
     var formId = req.params.formId;
@@ -73,7 +73,6 @@ if (!isDev && cluster.isMaster) {
       "inputs": form[0]['inputs']
     }
 
-    console.log(formObj)
     res.set('Content-Type', 'application/json');
     res.send(formObj);
   });
@@ -81,6 +80,7 @@ if (!isDev && cluster.isMaster) {
   var formSubmissionSchema = require('./models/formSubmission');
   var FormSubmission = connection.model('FormSubmission', formSubmissionSchema);
 
+  // get all forms
   app.get('/forms', async (req, res) => {
     var formSubmissionCount = [];
     var formsListMap = {}
@@ -99,8 +99,6 @@ if (!isDev && cluster.isMaster) {
       formSubmissionCount.push(sum(form.formId))
     })
 
-    // console.log(formsListMap)
-
     const submissionCounts = await Promise.all(formSubmissionCount)
 
     Object.keys(submissionCounts).map((key) => {
@@ -115,7 +113,7 @@ if (!isDev && cluster.isMaster) {
     res.send(formsListMap);
   });
 
-
+  // get form submission count by form id
   async function sum(id) {
     var submissions = await FormSubmission.find({ formId: id }).catch(function (err) {
       console.log.length(err)
@@ -123,6 +121,7 @@ if (!isDev && cluster.isMaster) {
     return submissions.length;
   }
 
+  // post submission methd
   app.post('/submit', async (req, res) => {
 
     var formSubmission = new FormSubmission({
@@ -135,9 +134,9 @@ if (!isDev && cluster.isMaster) {
       console.log.length(err)
     })
     res.sendStatus(200);
-
   });
 
+  // get submissions by form id
   app.get('/submission/:formId', async (req, res) => {
     var formId = req.params.formId;
     var submissionsList = {};
@@ -163,12 +162,6 @@ if (!isDev && cluster.isMaster) {
 
     res.set('Content-Type', 'application/json');
     res.send(submissionsList);
-  });
-
-  // Answer API requests.
-  app.get('/api', function (req, res) {
-    res.set('Content-Type', 'application/json');
-    res.send('{"message":"success"}');
   });
 
   // All remaining requests return the React app, so it can handle routing.
