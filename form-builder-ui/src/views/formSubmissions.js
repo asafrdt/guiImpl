@@ -15,10 +15,6 @@ class FormSubmissions extends React.Component {
     name: ''
   };
 
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     // fetch submissions
     axios.get("/submission/" + this.props.match.params.formId).then((response) => {
@@ -64,16 +60,16 @@ class FormSubmissions extends React.Component {
 
     var tableRow = Object.keys(responses).slice(0, -1).map((key) => {
       var td = Object.keys(responses[key].response).map((key1) => {
-        var control = formControls.find(control => control.name == key1);
-
-        if (control['type'] == 'color') {
-          var td = (
+        var control = formControls.find(control => control.name === key1);
+        var td = "";
+        if (control['type'] === 'color') {
+           td = (
             <td key={key1} bgcolor={responses[key].response[key1]}>{responses[key].response[key1]}</td>
           )
           return td
         }
         else {
-          var td = (
+           td = (
             <td key={key1}>{responses[key].response[key1]}</td>
           )
           return td
