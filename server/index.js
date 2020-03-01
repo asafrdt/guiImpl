@@ -6,7 +6,8 @@ const mongoose = require('mongoose');
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 5000;
 
-var connection = mongoose.createConnection("mongodb+srv://sangeeth:sangeeth2020@cluster0-55xpb.mongodb.net/formbuilder");
+var connection = mongoose.createConnection("mongodb+srv://Asafrdt:asaf135790@cluster0-8jbjb.mongodb.net/test?retryWrites=true&w=majority");
+
 
 // Multi-process to utilize all CPU cores.
 if (!isDev && cluster.isMaster) {
