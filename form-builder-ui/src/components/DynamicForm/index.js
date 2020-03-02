@@ -69,11 +69,11 @@ class DynamicForm extends React.Component {
 
       var input = "";
       if (type === "tel") {
-        feedback = "Please tel eg: 111-22-333"
+        feedback = "Please tel eg: 054-1234567"
 
         input = (
           <Form.Control
-            pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
+            pattern="[0-9]{3}-[0-9]{7}"
             required
             className="form-input"
             placeholder={pl}
