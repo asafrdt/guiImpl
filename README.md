@@ -24,8 +24,6 @@ This deployment will automatically:
     * serves `../form-builder-ui/build/` as static files
     * customize by adding API, proxy, or route handlers/redirectors
 
-👓 More about [deploying to Heroku](https://devcenter.heroku.com/categories/deployment).
-
 ## Mongoose Database Connection
 
 A datbase named `"formbuilder"` , a collection `"forms"` must be created in your MongoDb and URI of Mongoose database collection must be placed in `line [9] server/index.js`
@@ -33,7 +31,6 @@ A datbase named `"formbuilder"` , a collection `"forms"` must be created in your
 `
  mongoose.createConnection("mongodb+srv://<username>:<password>@cluster0-55xpb.mongodb.net/formbuilder");
 `
-
 ## Local Development
 
 Because this app is made of two npm projects, there are two places to run `npm` commands:
