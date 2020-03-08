@@ -15,12 +15,12 @@ class DynamicForm extends React.Component {
     this.del = this.del.bind(this);
   }
 
-  // form submit action
+  // form submit action & validation
   onSubmitForm = e => {
     e.stopPropagation();
     e.preventDefault();
     const form = e.currentTarget;
-    if (form.checkValidity() === false) {
+    if (!form.checkValidity()) {
       this.setState({
         validated: true,
         setValidated: true
@@ -54,12 +54,12 @@ class DynamicForm extends React.Component {
   };
 
   renderForm = () => {
-    var inputs = this.props.inputs;
-    var formUI = inputs.map(m => {
+    const inputs = this.props.inputs;
+    const formUI = inputs.map(m => {
       var key = m.key;
       var type = m.type || "text";
       var name = m.name;
-      var label = m.label;
+      const label = m.label;
       var value = m.value;
 
       let target = key;
@@ -70,7 +70,7 @@ class DynamicForm extends React.Component {
       var input = "";
       if (type === "tel") {
         feedback = "Please tel eg: 054-1234567"
-
+        
         input = (
           <Form.Control
             pattern="[0-9]{3}-[0-9]{7}"
@@ -121,7 +121,7 @@ class DynamicForm extends React.Component {
   };
 
   renderSubmitButton = () => {
-    if (this.props.submitBtn === "true") {
+    if (this.props.submitBtn) {
       return (
         <Form.Group as={Row} className="centerContent" controlId="">
           <Col md="1">

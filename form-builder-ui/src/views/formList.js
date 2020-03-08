@@ -12,7 +12,7 @@ class FormList extends React.Component {
   };
 
   componentDidMount() {
-    //fetxhing forms
+    //fetching forms
     axios.get('/forms').then((response) => {
       this.setState({
         forms: response.data
@@ -23,7 +23,7 @@ class FormList extends React.Component {
     })
   }
 
-  // generate table
+  // generate table of Form list
   generateTable() {
     var forms = this.state.forms;
     var tableRow = Object.keys(forms).map((key) => {

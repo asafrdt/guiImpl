@@ -89,7 +89,7 @@ class FormSubmissions extends React.Component {
   render() {
     return (
       <Container>
-        <h1 className="header">{this.state.name} Submissions</h1>
+        <h1 className="header">{this.state.name} Submissions Page</h1>
         <Table striped bordered hover>
           <thead>
             {this.generateTableHeader()}

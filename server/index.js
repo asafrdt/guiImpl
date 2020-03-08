@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 5000;
 
-var connection = mongoose.createConnection("mongodb+srv://Asafrdt:asaf135790@cluster0-8jbjb.mongodb.net/test?retryWrites=true&w=majority");
+const connection = mongoose.createConnection("mongodb+srv://Asafrdt:asaf135790@cluster0-8jbjb.mongodb.net/test?retryWrites=true&w=majority");
 
 
 // Multi-process to utilize all CPU cores.
@@ -37,13 +37,13 @@ if (!isDev && cluster.isMaster) {
 
   app.use(bodyParser.json())
 
-  var autoIncrement = require('mongoose-auto-increment');
+  const autoIncrement = require('mongoose-auto-increment');
   autoIncrement.initialize(connection);
 
-  var formSchema = require('./models/form');
+  const formSchema = require('./models/form');
   formSchema.plugin(autoIncrement.plugin, { model: 'Form', field: 'formId', startAt: 1 });
 
-  var Form = connection.model('Form', formSchema);
+  const Form = connection.model('Form', formSchema);
 
   // form post method
   app.post('/form', async (req, res) => {
