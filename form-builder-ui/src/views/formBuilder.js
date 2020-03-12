@@ -1,7 +1,7 @@
 import React from 'react';
 import DynamicForm from "../components/DynamicForm";
 import axios from 'axios';
-import { Button, Container, Row, Col, Form, InputGroup } from 'react-bootstrap';
+import { Button, Container, Row, Col, Form, InputGroup,Card } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./style.css";
 import { Redirect } from 'react-router-dom';
@@ -152,7 +152,7 @@ class FormBuilder extends React.Component {
                   onChange={this.handleChange}
                 />
                 <Form.Control.Feedback type="invalid">
-                  Please choose a username.
+                  Please choose a form name.
                 </Form.Control.Feedback>
               </Col>
             </Form.Group>
@@ -194,7 +194,7 @@ class FormBuilder extends React.Component {
                     onChange={this.handleChange}
                   />
                   <Form.Control.Feedback type="invalid">
-                    Please choose a username.
+                    Please choose a label name.
                 </Form.Control.Feedback>
                 </InputGroup>
               </Form.Group>
@@ -214,7 +214,7 @@ class FormBuilder extends React.Component {
                     onChange={this.handleChange}
                   />
                   <Form.Control.Feedback type="invalid">
-                    Please choose a username.
+                    Please choose a input name
                 </Form.Control.Feedback>
                 </InputGroup>
               </Form.Group>

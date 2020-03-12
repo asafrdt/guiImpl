@@ -47,7 +47,7 @@ class FormSubmit extends React.Component {
       var feildName = form[key].name;
       var res = input[form[key].key];
       if(feildName === 'color' && res == null){
-        response[feildName] = '#000000'
+        response[feildName] = "#00004 "
       }else{
         response[feildName] = res;
       }
@@ -63,7 +63,7 @@ class FormSubmit extends React.Component {
     this.saveSubmissionToDb(submissionObj)
   }
 
-  // save input data to db
+  // save input data to db after the client submit to a form
   saveSubmissionToDb(payload) {
     axios.post('/submit', {
       payload: payload

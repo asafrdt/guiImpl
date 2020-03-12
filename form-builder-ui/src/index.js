@@ -17,13 +17,15 @@ const routing = (
                 <Nav className="mr-auto">
                     <Nav.Link href="/">Form-Builder</Nav.Link>
                     <Nav.Link href="/formList">Form-List</Nav.Link>
+                    <Nav.Link href="/auth/github">Github login</Nav.Link>
+
                 </Nav>
             </Navbar.Collapse>
         </Navbar>
         <Route exact path="/" component={FormBuilder} />
         <Route path="/formList" component={FormList} />
         <Route path="/submissions/:formId" component={FormSubmissions} />
-        <Route path="/submit/:formId" component={FormSubmit} />
+        <Route path="/submit/:formId" component={FormSubmit}/> 
     </Router>
 )
 
